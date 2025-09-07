@@ -1,70 +1,79 @@
 # Домашнее задание к занятию «Базы данных» Шелухин Юрий
 
 ### Легенда
-
 Заказчик передал вам [файл в формате Excel](https://github.com/netology-code/sdb-homeworks/blob/main/resources/hw-12-1.xlsx), в котором сформирован отчёт. 
-
 На основе этого отчёта нужно выполнить следующие задания.
 
 ### Задание 1
 
 Опишите не менее семи таблиц, из которых состоит база данных:
-
 - какие данные хранятся в этих таблицах;
 - какой тип данных у столбцов в этих таблицах, если данные хранятся в PostgreSQL.
 
 Приведите решение к следующему виду:
-
 Сотрудники (
-
 - идентификатор, первичный ключ, serial,
 - фамилия varchar(50),
 - ...
 - идентификатор структурного подразделения, внешний ключ, integer).
-
 ---
 
 #### Решение 1.
-1. Установим RabbitMQ с помощью контейнеризации.  
-`sudo docker-compose -f docker-compose_simple.yml up`  
-Через команду `docker ps -a` посмотрим список работающих контейнеров.  
-<img src = "img/1-1.png" width = 60%>     
-
-2. Обратимся к браузеру по адресу: http://192.168.65.135:15672.    
-<img src = "img/1-2.png" width = 60%>         
-
+1. База данных состоит из данных числовых, строковых, 
+2. Таблицы, из которых состоит база данных:
+ФИО сотрудника -	VARCHAR 	
+Оклад 	- MONEY 	
+Должность 	- VARCHAR 	
+Тип подразделения 	- VARCHAR 	
+Структурное подразделение -VARCHAR 	
+Дата найма 	- DATE 	
+Адрес филиала 	- VARCHAR 	
+Проект, на который назначен - VARCHAR 	
+3. [файл в формате Excel](files/hw-12-1.xlsx)
 ---
+
 
 ### Задание 2*
 
 Перечислите, какие, на ваш взгляд, в этой денормализованной таблице встречаются функциональные зависимости и какие правила вывода нужно применить, чтобы нормализовать данные.
+
 ---
 
 #### Решение 2*.
-1. Установим Python версии 3 и библиотеку Pika.  
-`sudo apt install python3-pip`  
-`sudo apt install python3.10-venv`  
-`pip install pika`
-2. Создадим виртуальное окружение.  
-`python3 -m venv env`
-3.  Для работы в виртуальной среде, активируем её.  
-`source env/bin/activate`
-4. Откроем скрипт-producer и изменим текст сообщения.
-<img src = "img/2-1.png" width = 60%>   
+Примеры имеющихся зависимостей:
+    оклад- от сотрудника;
+    адрес филиала- от структурного подраздления;
+Для нормализации данных нужно:
+    сделать значения атомарными (проекты, на которые назначен);
+    создать идентификатор с первичным ключем для сотрудника;
+    убрать избыточность данных;
+    раздробить таблицу.
 
-5. Запустим скрипт несколько раз, перед этим запустив контейнер RabbitMQ.
-`python producer_single.py`   
-Не сработало, ошибки.  
-Вновь `pip install pika`.  
-Вновь `python producer_single.py` несколько раз.  
-Посмотрим в веб-интерфейсе очередь под названием hello и сообщения в ней.  
-<img src = "img/2-2.png" width = 60%> 
-<img src = "img/2-3.png" width = 60%> 
-<img src = "img/2-4.png" width = 60%> 
+---
 
-
-6. Запустим второй скрипт consumer.py.
-<img src = "img/2-5.png" width = 60%> 
-<img src = "img/2-6.png" width = 60%>
-
+### Для себя. Работа с DBeaver.
+Для себя:
+`docker run --name pg-test -p 5432:5432 -e POSTGRES_PASSWORD=postgres -d postgres:latest`  
+Установим Python версии 3 и библиотеку Pika.   
+<img src = "img/01.png" width = 60%> 
+<img src = "img/02.png" width = 60%> 
+<img src = "img/03.png" width = 60%>
+<img src = "img/04.png" width = 60%> 
+<img src = "img/05.png" width = 60%> 
+<img src = "img/1.png" width = 60%> 
+<img src = "img/2.png" width = 60%> 
+<img src = "img/3.png" width = 60%>
+<img src = "img/4.png" width = 60%> 
+<img src = "img/5.png" width = 60%> 
+<img src = "img/6.png" width = 60%>
+<img src = "img/7.png" width = 60%> 
+<img src = "img/8.png" width = 60%> 
+<img src = "img/9.png" width = 60%>
+<img src = "img/10.png" width = 60%>
+<img src = "img/11.png" width = 60%> 
+<img src = "img/12.png" width = 60%> 
+<img src = "img/13.png" width = 60%>
+<img src = "img/15.png" width = 60%> 
+<img src = "img/14.png" width = 60%>
+<img src = "img/16.png" width = 60%>
 ---
